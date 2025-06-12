@@ -1,0 +1,6 @@
+blank_issues_enabled: false
+contact_links: []
+issue_template_selector:
+  - label: "🔖 General Issue"
+    description: "Use this template for tasks, features, or bugs."
+    template: "issue_template.yml"
