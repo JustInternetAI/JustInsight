@@ -5,7 +5,7 @@
 
 ## 🎯 Objectives
 1. Build an end-to-end pipeline: ingestion → NLP → insights.
-2. Provide interns hands-on experience with data engineering, NLP, and dashboarding.
+2. Provide hands-on experience with data engineering, NLP, and dashboarding.
 3. Deliver a working demo by the end of Week 6.
 
 ---
