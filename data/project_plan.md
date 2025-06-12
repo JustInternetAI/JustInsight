@@ -15,11 +15,11 @@
 | Week | Deliverable                                                   |
 |:----:|:--------------------------------------------------------------|
 | **1**                      |
-|        | - PoC: ingest 10 articles from two sources                   |
+|        | - PoC: ingest 11 articles from two sources                   |
 | **2**    | - Normalize & store articles in DB                          |
 |        | - Define JSON schema & loader                                |
 | **3**    | - spaCy NER integration: PERSON, ORG, GPE                    |
-|        | - Create entity-tagging API endpoint                         |
+|        | - Create entity-tagging API endpoint                         |git 
 | **4**    | - Topic modeling (BERTopic/LDA)                              |
 |        | - Topic-tagging API                                          |
 | **5**    | - Fact extraction (OpenIE/transformer extractor)             |
