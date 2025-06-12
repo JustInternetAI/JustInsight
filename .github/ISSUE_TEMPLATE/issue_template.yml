@@ -19,11 +19,13 @@ body:
       options:
         - "In scope: implementation, tests"
         - "Out of scope: documentation updates"
-  - type: input
+  - type: textarea
     id: acceptance_criteria
     attributes:
       label: "Acceptance Criteria"
-      description: "List the testable conditions for completion, one per line."
+      description: "List each criterion on its own line. hint ->  - [ ] some criteria to indicate a checkbox."
+      validations:
+        required: true
   - type: textarea
     id: context
     attributes:
