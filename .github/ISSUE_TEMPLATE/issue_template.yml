@@ -1,35 +1,33 @@
+name: "🔖 Issue"
+description: "Describe the task, feature, or bug to be addressed."
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: "Summary"
+      description: "A brief description of the issue or feature request."
+  - type: input
+    id: motivation
+    attributes:
+      label: "Motivation"
+      description: "Why is this work important? What problem does it solve?"
+  - type: dropdown
+    id: scope
+    attributes:
+      label: "Scope"
+      description: "Select what this issue covers or excludes"
+      options:
+        - "In scope: implementation, tests"
+        - "Out of scope: documentation updates"
+  - type: input
+    id: acceptance_criteria
+    attributes:
+      label: "Acceptance Criteria"
+      description: "List the testable conditions for completion, one per line."
+  - type: textarea
+    id: context
+    attributes:
+      label: "Additional Context"
+      description: "Add any other context, screenshots, or references here."
 
-   name: "🔖 Issue"
-   description: "Describe the task, feature, or bug to be addressed."
-   body:
-     - type: markdown
-       attributes:
-         value: |
-           ## Summary
-           A brief description of the issue or feature request.
-     - type: textarea
-       id: motivation
-       attributes:
-         label: "Motivation"
-         description: "Why is this work important? What problem does it solve?"
-     - type: dropdown
-       id: scope
-       attributes:
-         label: "Scope"
-         description: "Select what this issue covers or excludes"
-         options:
-           - "In scope: implementation, tests"
-           - "Out of scope: documentation updates"
-     - type: checkboxes
-       id: acceptance
-       attributes:
-         label: "Acceptance Criteria"
-         options:
-           - label: "Criterion 1"
-           - label: "Criterion 2"
-           - label: "Criterion 3"
-     - type: textarea
-       id: context
-       attributes:
-         label: "Additional Context"
-         description: "Add any other context, screenshots, or references here."
+
