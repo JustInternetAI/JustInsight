@@ -1,0 +1,11 @@
+{
+    "name": "JustInsight",
+    "dockerComposeFile": ["docker-compose.yml"],
+    "service": "JustInsight_Service",
+    "workspaceFolder": "/workspace",
+    "extensions": [
+      "ms-python.python",
+      "ms-toolsai.jupyter"
+    ],
+    "shutdownAction": "stopCompose"
+  }

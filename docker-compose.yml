@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  JustInsight_Service:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    gpus: all
+
+    # bind-mount your repo and the shared EBS volume
+    volumes:
+      - ./:/workspace:cached
+      - /mnt/shared:/workspace/shared:cached
+
+    # ensure entrypoint.sh runs (clones & checks out the right branch)
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    command: ["bash"]
+    stdin_open: true
+    tty: true
+
+
+    # optional: default branch (can be overridden per-run)
+    environment:
+      - BRANCH=main
+
