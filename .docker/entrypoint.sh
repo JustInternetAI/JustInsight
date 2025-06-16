@@ -4,8 +4,6 @@ set -euo pipefail
 # Default branch (override via env if you want)
 BRANCH="${BRANCH:-master}"
 
-# Move into the mounted workspace (host’s clone)
-cd /workspace
 
 # Bail early if we don’t see a .git folder
 if [ ! -d .git ]; then
