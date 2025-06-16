@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Change these defaults if you rename the repo or directory
 REPO_URL="${REPO_URL:-https://github.com/JustInternetAI/JustInsight.git}"
-REPO_DIR="${REPO_DIR:-JustInsight}"
+REPO_DIR="${REPO_DIR:-justinsight}"
 
 # Which branch to check out (default to main)
 BRANCH="${BRANCH:-master}"
