@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  JustInsight_Service:
+  justinsight_service:
     build:
       context: .
       dockerfile: .docker/Dockerfile

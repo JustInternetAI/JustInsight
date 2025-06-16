@@ -1,7 +1,7 @@
 {
     "name": "JustInsight",
     "dockerComposeFile": ["docker-compose.yml"],
-    "service": "JustInsight_Service",
+    "service": "justinsight_service",
     "workspaceFolder": "/workspace",
     "extensions": [
       "ms-python.python",
