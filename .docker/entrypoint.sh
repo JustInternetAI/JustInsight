@@ -6,7 +6,7 @@ REPO_URL="${REPO_URL:-https://github.com/JustInternetAI/JustInsight.git}"
 REPO_DIR="${REPO_DIR:-JustInsight}"
 
 # Which branch to check out (default to main)
-BRANCH="${BRANCH:-main}"
+BRANCH="${BRANCH:-master}"
 
 # Clone if first run
 if [ ! -d "$REPO_DIR" ]; then
