@@ -9,7 +9,7 @@ services:
 
     # bind-mount your repo and the shared EBS volume
     volumes:
-      - ./:/workspace:cached
+      - /home/${USER}/justinsight:/workspace:cached
       - /mnt/shared:/workspace/shared:cached
 
     # ensure entrypoint.sh runs (clones & checks out the right branch)
