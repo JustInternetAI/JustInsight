@@ -4,6 +4,8 @@ set -euo pipefail
 # Default branch (override via env if you want)
 BRANCH="${BRANCH:-master}"
 
+# Tell Git that /workspace is safe to operate on
+git config --global --add safe.directory /workspace
 
 # Bail early if we don’t see a .git folder
 if [ ! -d .git ]; then
