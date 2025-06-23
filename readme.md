@@ -22,7 +22,7 @@ A lightweight, news intelligence service for ingesting free news sources, taggin
    cd justinsight
 
 
-Setting up Celery Beat:
+## Setting up Celery Beat:
 - On MacOS
    - run: docker compose up --build
       - OR for running in the background: docker compose up -d
