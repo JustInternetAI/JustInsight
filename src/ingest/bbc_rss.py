@@ -1,3 +1,15 @@
+import requests
+
+url = 'http://feeds.bbci.co.uk/news/world/rss.xml'
+response = requests.get(url)
+
+if response.status_code == 200:
+    with open('bbc_world.xml', 'wb') as f:
+        f.write(response.content)
+    print("Downloaded the latest BBC World RSS feed successfully.")
+else:
+    print(f"Failed to download feed. Status code: {response.status_code}")
+
 import feedparser
 import json
 import os
@@ -15,7 +27,7 @@ for i, entry in enumerate(feed.entries, 1):
     data = {
         "title": entry.title,
         "link": entry.link,
-        "published": entry.published if 'published' in entry else '',
+        "published": entry.get("published", ""),
         "raw_xml": entry.get('summary', '')  # summary usually contains raw content
     }
     
