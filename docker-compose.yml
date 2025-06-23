@@ -12,6 +12,8 @@ services:
       - /home/${USER}/workspace/justinsight:/workspace:cached
       - /mnt/shared:/workspace/shared:cached
 
+#~/workspace/justinsight
+
     # ensure entrypoint.sh runs (clones & checks out the right branch)
     entrypoint: ["/usr/local/bin/entrypoint.sh"]
     command: ["bash"]
@@ -23,3 +25,29 @@ services:
     environment:
       - BRANCH=master
 
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    volumes:
+      - /home/${USER}/workspace/justinsight:/workspace:cached
+    depends_on:
+      - redis
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    command: ["celery", "-A", justInsight.celery_app, "worker", "--loglevel=info"] ###justInsight.celery_app ?????
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    volumes:
+      - /home/${USER}/workspace/justinsight:/workspace:cached
+    depends_on:
+      - redis
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    command: ["celery", "-A", justInsight.celery_app, "beat", "--loglevel=info"] ###justInsight.celery_app ?????
