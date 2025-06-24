@@ -1,11 +1,10 @@
 version: '3.8'
-
+ 
 services:
   justinsight_service:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    gpus: all
 
     # bind-mount your repo and the shared EBS volume
     volumes:
@@ -13,13 +12,35 @@ services:
       - ./shared:/workspace/shared:cached
 
     # ensure entrypoint.sh runs (clones & checks out the right branch)
-    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    #entrypoint: ["/usr/local/bin/entrypoint.sh"]
     command: ["bash"]
     stdin_open: true
     tty: true
 
 
-    # optional: default branch (can be overridden per-run)
-    environment:
-       - BRANCH=${BRANCH:-master}
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
 
+  celery_worker:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    volumes:
+      - .:/workspace:cached
+    depends_on:
+      - redis
+    #entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    command: ["celery", "-A", justinsight.celery, "worker", "--loglevel=info"] #the lowercase j is actually so important
+
+  celery_beat:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    volumes:
+      - .:/workspace:cached
+    depends_on:
+      - redis
+    #entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    command: ["celery", "-A", justinsight.celery, "beat", "--loglevel=info"] #the lowercase j is actually so important

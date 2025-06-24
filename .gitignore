@@ -1,0 +1,2 @@
+celerybeat-schedule.*
+src/celerybeat-schedule.*

@@ -1,0 +1,4 @@
+celerybeat-schedule.*
+src/celerybeat-schedule.*
+.github
+.gitignore

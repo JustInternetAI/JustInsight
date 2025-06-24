@@ -6,15 +6,23 @@ RUN apt-get update && \
     apt-get install -y python3 python3-pip git && \
     rm -rf /var/lib/apt/lists/*
 
+# Install requirements
+COPY requirements.txt /workspace/requirements.txt
+RUN pip install --no-cache-dir -r /workspace/requirements.txt
+
 # Set working directory
 WORKDIR /workspace
+
+# Ensure Python can import from this path
+#ENV PYTHONPATH=/workspace/src
+ENV PYTHONPATH=/workspace:/workspace/src
 
 
 # Copy the entrypoint from the .docker folder into the image
 COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-ENTRYPOINT ["/use/local/bin/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["bash"]
 
 
