@@ -34,7 +34,7 @@ A lightweight, news intelligence service for ingesting free news sources, taggin
    - use EC2 section of entrypoint.sh
    - to shut down celery: docker compose down
 
-# When running in background you can use "docker logs <container_name_or_id>" to see the log and "docker ps" to find the ID.
+### When running in background you can use "docker logs <container_name_or_id>" to see the log and "docker ps" to find the ID.
 
 ## How to Create and Schedule a Task
 1) create a method for your task wherever you are working on it that can be called and complete the task. It should be in a package (ie there should be an __init__.py file in the same folder as the file you are working on).
