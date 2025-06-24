@@ -38,8 +38,8 @@ set -euo pipefail
 echo "Skipping Git checkout — using mounted code in /workspace"
 
 # Set the Python path and working dir
-cd /workspace/src
-export PYTHONPATH=/workspace/src
+#cd /workspace/src
+#export PYTHONPATH=/workspace/src
 #######################################################################################
 
 

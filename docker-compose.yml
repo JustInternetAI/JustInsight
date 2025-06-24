@@ -12,15 +12,11 @@ services:
       - ./shared:/workspace/shared:cached
 
     # ensure entrypoint.sh runs (clones & checks out the right branch)
-    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    #entrypoint: ["/usr/local/bin/entrypoint.sh"]
     command: ["bash"]
     stdin_open: true
     tty: true
 
-
-    # optional: default branch (can be overridden per-run)
-    environment:
-       - BRANCH=${BRANCH:-master}
 
   redis:
     image: redis:7-alpine
@@ -35,8 +31,8 @@ services:
       - .:/workspace:cached
     depends_on:
       - redis
-    entrypoint: ["/usr/local/bin/entrypoint.sh"]
-    command: ["celery", "-A", justInsight.celery, "worker", "--loglevel=info"] #the lowercase j is actually so important
+    #entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    command: ["celery", "-A", justinsight.celery, "worker", "--loglevel=info"] #the lowercase j is actually so important
 
   celery_beat:
     build:
@@ -46,5 +42,5 @@ services:
       - .:/workspace:cached
     depends_on:
       - redis
-    entrypoint: ["/usr/local/bin/entrypoint.sh"]
-    command: ["celery", "-A", justInsight.celery, "beat", "--loglevel=info"] #the lowercase j is actually so important
+    #entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    command: ["celery", "-A", justinsight.celery, "beat", "--loglevel=info"] #the lowercase j is actually so important

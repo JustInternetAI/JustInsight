@@ -33,3 +33,6 @@ A lightweight, news intelligence service for ingesting free news sources, taggin
       - OR for running in the background: docker compose up -d
    - use EC2 section of entrypoint.sh
    - to shut down celery: docker compose down
+
+*When running in background you can use "docker logs <container_name_or_id>" to see the log and "docker ps"
+to find the ID.
