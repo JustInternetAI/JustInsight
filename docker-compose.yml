@@ -19,7 +19,4 @@ services:
     tty: true
 
 
-    # optional: default branch (can be overridden per-run)
-    environment:
-       - BRANCH=${BRANCH:-master}
 
