@@ -22,7 +22,7 @@ A lightweight, news intelligence service for ingesting free news sources, taggin
    cd justinsight
 
 
-## Setting up Celery Beat:
+## Setting up Celery Beat
 - On MacOS
    - run: docker compose up --build
       - OR for running in the background: docker compose up -d
@@ -34,5 +34,14 @@ A lightweight, news intelligence service for ingesting free news sources, taggin
    - use EC2 section of entrypoint.sh
    - to shut down celery: docker compose down
 
-*When running in background you can use "docker logs <container_name_or_id>" to see the log and "docker ps"
-to find the ID.
+# When running in background you can use "docker logs <container_name_or_id>" to see the log and "docker ps" to find the ID.
+
+## How to Create and Schedule a Task
+1) create a method for your task wherever you are working on it that can be called and complete the task. It should be in a package (ie there should be an __init__.py file in the same folder as the file you are working on).
+2) Go to src/justinsight/tasks.py and create a new task following the format of the sample task. Remember to add an import statement if one is needed.
+3) Go to src/justinsight/celery.py and schedule a new task after the comment showing where to schedule them. The new task can follow the same format as those above
+           "sample-task-name": {
+        "task": "justinsight.tasks.your_task_name",
+        "schedule": x, #where x is the number of seconds between when the task should happen
+        "args": (), #potential arguments for your task
+    },
