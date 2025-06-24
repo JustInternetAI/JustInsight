@@ -41,8 +41,8 @@ Note: When running in background you can use "docker logs <container_name_or_id>
 2) Go to src/justinsight/tasks.py and create a new task following the format of the sample task. Remember to add an import statement if one is needed.
 3) Go to src/justinsight/celery.py and schedule a new task after the comment showing where to schedule them. The new task can follow the same format as those above
 
-   "sample-task-name": {
-        "task": "justinsight.tasks.your_task_name",
-        "schedule": x, #where x is the number of seconds between when the task should happen
-        "args": (), #potential arguments for your task
+   "sample-task-name": {  
+        "task": "justinsight.tasks.your_task_name",  
+        "schedule": x, #where x is the number of seconds between when the task should happen  
+        "args": (), #potential arguments for your task  
     },
