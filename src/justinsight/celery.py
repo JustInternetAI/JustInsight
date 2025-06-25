@@ -10,9 +10,21 @@ app = Celery(
 
 # Optional beat schedule
 app.conf.beat_schedule = {
-    "sample-task-every-5-seconds": {
-        "task": "justinsight.tasks.sample_task",
-        "schedule": 5.0,
+    # "sample-task-every-5-seconds": {
+    #     "task": "justinsight.tasks.sample_task",
+    #     "schedule": 5.0,
+    #     "args": (),
+    # },
+
+    "check-BBCfeed-every-5-minutes": {
+        "task": "justinsight.tasks.bbcLogger_task",
+        "schedule": 300.0,
+        "args": (),
+    },
+
+    "check-NYTfeed-every-5-minutes": {
+        "task": "justinsight.tasks.nytLogger_task",
+        "schedule": 300.0,
         "args": (),
     },
 
