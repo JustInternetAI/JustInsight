@@ -1,3 +1,4 @@
+
 import feedparser
 import json
 import os
@@ -83,3 +84,4 @@ if __name__ == '__main__':
         while True:
             check_and_save_new_entries()
             time.sleep(INTERVAL)
+

@@ -20,3 +20,19 @@ A lightweight, news intelligence service for ingesting free news sources, taggin
    ```bash
    git clone https://github.com/JustInternetAI/JustInsight.git
    cd justinsight
+
+
+## Setting up Celery Beat:
+- On MacOS
+   - run: docker compose up --build
+      - OR for running in the background: docker compose up -d
+   - use local development section of entrypoint.sh
+   - to shut down celery: docker compose down
+- On the EC2
+   - run: docker compose -f docker-compose.yml -f docker-compose.gpu.yml up --build
+      - OR for running in the background: docker compose up -d
+   - use EC2 section of entrypoint.sh
+   - to shut down celery: docker compose down
+
+*When running in background you can use "docker logs <container_name_or_id>" to see the log and "docker ps"
+to find the ID.
