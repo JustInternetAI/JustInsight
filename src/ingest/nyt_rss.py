@@ -1,4 +1,3 @@
-
 import feedparser
 import json
 import os
@@ -10,11 +9,11 @@ from bs4 import BeautifulSoup
 
 INTERVAL = 3600  # seconds (1 hour)
 
-os.makedirs('./data/raw/bbc/', exist_ok=True)
+os.makedirs('./data/raw/nyt/', exist_ok=True)
 
 def fetch_feed():
     # Download and parse the feed
-    return feedparser.parse('http://feeds.bbci.co.uk/news/world/rss.xml')
+    return feedparser.parse('https://rss.nytimes.com/services/xml/rss/nyt/World.xml')
 
 def slugify(text):
     # Convert title to a filesystem-friendly slug
@@ -31,20 +30,33 @@ def format_date(entry):
         return "unknown-date"
 
 def fetch_full_article(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    try:
+        headers = {
+            "User-Agent": "Mozilla/5.0"
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        soup = BeautifulSoup(response.content, 'html.parser')
 
-    article = soup.find('article')
+        # Look for main content section (works for most NYT articles)
+        main = soup.find('main')
+        if not main:
+            return ""
 
-    if article:
-        return(article.get_text())
+        paragraphs = main.find_all('p')
+        full_text = "\n".join(p.get_text() for p in paragraphs)
+        return full_text.strip()
+
+    except Exception as e:
+        print(f"Error fetching full article: {e}")
+        return ""
+
 
 def save_entry(entry):
     # Save the entry as a JSON file
     title_slug = slugify(entry.title)
     date_str = format_date(entry)
-    filename = f"feed_{date_str}_{title_slug}.json"
-    filepath = os.path.join('./data/raw/bbc/', filename)
+    filename = f"{date_str}_{title_slug}.json"
+    filepath = os.path.join('./data/raw/nyt/', filename)
     full_text = fetch_full_article(entry.link)
 
     # Avoid overwriting if file already exists
@@ -84,4 +96,4 @@ if __name__ == '__main__':
         while True:
             check_and_save_new_entries()
             time.sleep(INTERVAL)
-
+            

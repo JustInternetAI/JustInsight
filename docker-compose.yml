@@ -16,8 +16,7 @@ services:
     command: ["bash"]
     stdin_open: true
     tty: true
-
-
+    
   redis:
     image: redis:7-alpine
     ports:
@@ -34,13 +33,4 @@ services:
     #entrypoint: ["/usr/local/bin/entrypoint.sh"]
     command: ["celery", "-A", justinsight.celery, "worker", "--loglevel=info"] #the lowercase j is actually so important
 
-  celery_beat:
-    build:
-      context: .
-      dockerfile: .docker/Dockerfile
-    volumes:
-      - .:/workspace:cached
-    depends_on:
-      - redis
-    #entrypoint: ["/usr/local/bin/entrypoint.sh"]
-    command: ["celery", "-A", justinsight.celery, "beat", "--loglevel=info"] #the lowercase j is actually so important
+

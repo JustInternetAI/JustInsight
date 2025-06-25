@@ -1,5 +1,7 @@
 celerybeat-schedule.*
 src/celerybeat-schedule.*
+feed*.json
+.DS_Store
 
 # Ignore all __pycache__ directories at any level
 **/__pycache__/
