@@ -4,16 +4,15 @@ import os
 import re
 import time
 import datetime
-import requests
-from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright
 
 INTERVAL = 3600  # seconds (1 hour)
 
-os.makedirs('./data/raw/nyt/', exist_ok=True)
+os.makedirs('./data/raw/ap/', exist_ok=True)
 
 def fetch_feed():
     # Download and parse the feed
-    return feedparser.parse('https://rss.nytimes.com/services/xml/rss/nyt/World.xml')
+    return feedparser.parse('https://news.google.com/rss/search?q=when:24h+allinurl:apnews.com&hl=en-US&gl=US&ceid=US:en')
 
 def slugify(text):
     # Convert title to a filesystem-friendly slug
@@ -31,32 +30,31 @@ def format_date(entry):
 
 def fetch_full_article(url):
     try:
-        headers = {
-            "User-Agent": "Mozilla/5.0"
-        }
-        response = requests.get(url, headers=headers, timeout=10)
-        soup = BeautifulSoup(response.content, 'html.parser')
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page()
+            page.goto(url, timeout=15000)
 
-        # Look for main content section (works for most NYT articles)
-        main = soup.find('main')
-        if not main:
-            return ""
+            # Wait for the main article body to load
+            page.wait_for_selector('div.RichTextStoryBody', timeout=5000)
 
-        paragraphs = main.find_all('p')
-        full_text = "\n".join(p.get_text() for p in paragraphs)
-        return full_text.strip()
+            # Extract the text content from the paragraphs inside the body
+            content = page.query_selector_all('div.RichTextStoryBody p')
+            full_text = "\n".join(p.inner_text() for p in content)
+
+            browser.close()
+            return full_text.strip()
 
     except Exception as e:
-        print(f"Error fetching full article: {e}")
+        print(f"Playwright error fetching {url}: {e}")
         return ""
-
-
+    
 def save_entry(entry):
     # Save the entry as a JSON file
     title_slug = slugify(entry.title)
     date_str = format_date(entry)
     filename = f"feed_{date_str}_{title_slug}.json"
-    filepath = os.path.join('./data/raw/nyt/', filename)
+    filepath = os.path.join('./data/raw/ap/', filename)
     full_text = fetch_full_article(entry.link)
 
     # Avoid overwriting if file already exists
@@ -96,3 +94,4 @@ if __name__ == '__main__':
         while True:
             check_and_save_new_entries()
             time.sleep(INTERVAL)
+
