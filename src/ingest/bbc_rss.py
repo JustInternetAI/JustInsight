@@ -43,7 +43,7 @@ def save_entry(entry):
     # Save the entry as a JSON file
     title_slug = slugify(entry.title)
     date_str = format_date(entry)
-    filename = f"{date_str}_{title_slug}.json"
+    filename = f"feed_{date_str}_{title_slug}.json"
     filepath = os.path.join('./data/raw/bbc/', filename)
     full_text = fetch_full_article(entry.link)
 
