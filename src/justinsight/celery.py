@@ -10,15 +10,11 @@ app = Celery(
 
 # Optional beat schedule
 app.conf.beat_schedule = {
-    "sample-task-every-10-seconds": {
-        "task": "justinsight.tasks.sample_task",
-        "schedule": 10.0,
-        "args": (),
-    },
-        "sample-task-every-5-seconds": {
+    "sample-task-every-5-seconds": {
         "task": "justinsight.tasks.sample_task",
         "schedule": 5.0,
         "args": (),
     },
+
     #schedule more tasks here
 }

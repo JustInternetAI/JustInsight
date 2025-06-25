@@ -1,1 +1,4 @@
 celery[redis]
+feedparser
+requests
+beautifulsoup4
