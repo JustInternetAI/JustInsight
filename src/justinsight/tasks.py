@@ -7,3 +7,5 @@ from ingest.bbc_rss import testTask
 def sample_task():
     testTask()
     return "done!"
+
+#Add more tasks here in the format of the one above
