@@ -1,5 +1,6 @@
+beautifulsoup4
 celery[redis]
 feedparser
-requests
-beautifulsoup4
 playwright
+pymongo
+requests
