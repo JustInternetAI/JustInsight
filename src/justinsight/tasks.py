@@ -1,7 +1,6 @@
 # tasks.py
 from celery import shared_task
-from ingest.bbc_rss import check_and_save_new_entries as check_and_save_bbc
-from ingest.nyt_rss import check_and_save_new_entries as check_and_save_nyt
+from ingest.bbc_ingestor import BBCIngestor
 
 
 @shared_task
@@ -11,7 +10,9 @@ def sample_task():
 
 @shared_task
 def bbcLogger_task():
-    check_and_save_bbc()
+    # Create an instance of the class
+    ingestor = BBCIngestor()
+    ingestor.check_and_save_new_entries()  # this will invoke the inherited logic
     return "BBC RSS Feed checked."
 
 @shared_task
