@@ -1,22 +1,20 @@
-
 import feedparser
 import json
 import os
 import re
 import time
 import datetime
-import requests
-from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright
 import hashlib
 
 INTERVAL = 3600  # seconds (1 hour)
 HASHES = './data/raw/feed_saved_hashes.json'
 
-os.makedirs('./data/raw/bbc/', exist_ok=True)
+os.makedirs('./data/raw/ap/', exist_ok=True)
 
 def fetch_feed():
     # Download and parse the feed
-    return feedparser.parse('http://feeds.bbci.co.uk/news/world/rss.xml')
+    return feedparser.parse('https://news.google.com/rss/search?q=when:24h+allinurl:apnews.com&hl=en-US&gl=US&ceid=US:en')
 
 def slugify(text):
     # Convert title to a filesystem-friendly slug
@@ -33,14 +31,26 @@ def format_date(entry):
         return "unknown-date"
 
 def fetch_full_article(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page()
+            page.goto(url, timeout=15000)
 
-    article = soup.find('article')
+            # Wait for the main article body to load
+            page.wait_for_selector('div.RichTextStoryBody', timeout=5000)
 
-    if article:
-        return(article.get_text())
+            # Extract the text content from the paragraphs inside the body
+            content = page.query_selector_all('div.RichTextStoryBody p')
+            full_text = "\n".join(p.inner_text() for p in content)
 
+            browser.close()
+            return full_text.strip()
+
+    except Exception as e:
+        print(f"Playwright error fetching {url}: {e}")
+        return ""
+    
 def load_saved_hashes():
     if os.path.exists(HASHES):
         with open(HASHES, 'r', encoding='utf-8') as f:
@@ -66,8 +76,12 @@ def save_entry(entry):
     title_slug = slugify(entry.title)
     date_str = format_date(entry)
     filename = f"feed_{date_str}_{title_slug}.json"
-    filepath = os.path.join('./data/raw/bbc/', filename)
+    filepath = os.path.join('./data/raw/ap/', filename)
     full_text = fetch_full_article(entry.link)
+
+    # Avoid overwriting if file already exists
+    if os.path.exists(filepath):
+        return False
 
     data = {
         "title": entry.title,

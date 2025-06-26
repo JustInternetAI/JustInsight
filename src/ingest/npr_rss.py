@@ -1,4 +1,5 @@
 
+
 import feedparser
 import json
 import os
@@ -12,11 +13,11 @@ import hashlib
 INTERVAL = 3600  # seconds (1 hour)
 HASHES = './data/raw/feed_saved_hashes.json'
 
-os.makedirs('./data/raw/bbc/', exist_ok=True)
+os.makedirs('./data/raw/npr/', exist_ok=True)
 
 def fetch_feed():
     # Download and parse the feed
-    return feedparser.parse('http://feeds.bbci.co.uk/news/world/rss.xml')
+    return feedparser.parse('https://feeds.npr.org/1004/rss.xml')
 
 def slugify(text):
     # Convert title to a filesystem-friendly slug
@@ -33,13 +34,30 @@ def format_date(entry):
         return "unknown-date"
 
 def fetch_full_article(url):
-    response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    try:
+        headers = {
+            "User-Agent": "Mozilla/5.0"
+        }
+        response = requests.get(url, headers=headers, timeout=10)
+        response.raise_for_status()
 
-    article = soup.find('article')
+        soup = BeautifulSoup(response.content, 'html.parser')
 
-    if article:
-        return(article.get_text())
+        # NPR article body is typically in <div class="storytext"> or <article> blocks
+        article_body = soup.find('div', class_='storytext') or soup.find('article')
+
+        if not article_body:
+            print("No main article content found.")
+            return ""
+
+        paragraphs = article_body.find_all('p')
+        full_text = "\n".join(p.get_text(strip=True) for p in paragraphs)
+
+        return full_text.strip()
+
+    except Exception as e:
+        print(f"Error fetching NPR article: {e}")
+        return ""
 
 def load_saved_hashes():
     if os.path.exists(HASHES):
@@ -61,13 +79,17 @@ def save_entry(entry):
 
     if entry_hash in saved_hashes:
         return False  # Already saved
-    
+
     # Save the entry as a JSON file
     title_slug = slugify(entry.title)
     date_str = format_date(entry)
     filename = f"feed_{date_str}_{title_slug}.json"
-    filepath = os.path.join('./data/raw/bbc/', filename)
+    filepath = os.path.join('./data/raw/npr/', filename)
     full_text = fetch_full_article(entry.link)
+
+    # Avoid overwriting if file already exists
+    if os.path.exists(filepath):
+        return False
 
     data = {
         "title": entry.title,
@@ -79,9 +101,6 @@ def save_entry(entry):
 
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
-
-    saved_hashes.add(entry_hash)
-    save_hashes(saved_hashes)
 
     return True
 
