@@ -28,6 +28,7 @@ services:
       dockerfile: .docker/Dockerfile
     volumes:
       - .:/workspace:cached
+      - mongo_data:/data/db 
     depends_on:
       - redis
     #entrypoint: ["/usr/local/bin/entrypoint.sh"]
@@ -43,3 +44,19 @@ services:
       - redis
     #entrypoint: ["/usr/local/bin/entrypoint.sh"]
     command: ["celery", "-A", justinsight.celery, "beat", "--loglevel=info"] #the lowercase j is actually so important
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: myuser
+      MONGO_INITDB_ROOT_PASSWORD: mypassword
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db 
+      - .:/workspace:cached
+
+volumes:
+  mongo_data:
