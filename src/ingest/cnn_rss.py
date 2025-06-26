@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 import hashlib
 
 INTERVAL = 3600  # seconds (1 hour)
-HASHES = './data/raw/saved_hashes.json'
+HASHES = './data/raw/feed_saved_hashes.json'
 
 os.makedirs('./data/raw/cnn/', exist_ok=True)
 

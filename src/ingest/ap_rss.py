@@ -8,7 +8,7 @@ from playwright.sync_api import sync_playwright
 import hashlib
 
 INTERVAL = 3600  # seconds (1 hour)
-HASHES = './data/raw/saved_hashes.json'
+HASHES = './data/raw/feed_saved_hashes.json'
 
 os.makedirs('./data/raw/ap/', exist_ok=True)
 
@@ -96,7 +96,7 @@ def save_entry(entry):
 
     saved_hashes.add(entry_hash)
     save_hashes(saved_hashes)
-    
+
     return True
 
 def check_and_save_new_entries():
