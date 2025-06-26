@@ -7,8 +7,10 @@ import time
 import datetime
 import requests
 from bs4 import BeautifulSoup
+import hashlib
 
 INTERVAL = 3600  # seconds (1 hour)
+HASHES = './data/raw/feed_saved_hashes.json'
 
 os.makedirs('./data/raw/bbc/', exist_ok=True)
 
@@ -39,17 +41,33 @@ def fetch_full_article(url):
     if article:
         return(article.get_text())
 
+def load_saved_hashes():
+    if os.path.exists(HASHES):
+        with open(HASHES, 'r', encoding='utf-8') as f:
+            return set(json.load(f))
+    return set()
+
+def save_hashes(hashes):
+    with open(HASHES, 'w', encoding='utf-8') as f:
+        json.dump(list(hashes), f, indent=2)
+
+def generate_entry_hash(entry):
+    hash_input = f"{entry.title}{entry.link}{entry.get('published', '')}"
+    return hashlib.sha256(hash_input.encode('utf-8')).hexdigest()
+
 def save_entry(entry):
+    saved_hashes = load_saved_hashes()
+    entry_hash = generate_entry_hash(entry)
+
+    if entry_hash in saved_hashes:
+        return False  # Already saved
+    
     # Save the entry as a JSON file
     title_slug = slugify(entry.title)
     date_str = format_date(entry)
     filename = f"feed_{date_str}_{title_slug}.json"
     filepath = os.path.join('./data/raw/bbc/', filename)
     full_text = fetch_full_article(entry.link)
-
-    # Avoid overwriting if file already exists
-    if os.path.exists(filepath):
-        return False
 
     data = {
         "title": entry.title,
@@ -61,6 +79,9 @@ def save_entry(entry):
 
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
+
+    saved_hashes.add(entry_hash)
+    save_hashes(saved_hashes)
 
     return True
 
