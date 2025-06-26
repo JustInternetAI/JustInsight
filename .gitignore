@@ -10,3 +10,6 @@ feed*.json
 *.pyc
 *.pyo
 *.pyd
+
+#Ignore saved data
+data/*
