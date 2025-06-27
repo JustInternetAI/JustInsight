@@ -7,12 +7,6 @@ from ingest.save_to_database import save_entry
 class BaseIngestor:
     RSS_URL = None #will be set by the subclasses 
 
-    def slugify(self, text):
-        # Convert title to a filesystem-friendly slug
-        text = text.lower()
-        text = re.sub(r'[^a-z0-9]+', '-', text)
-        return text.strip('-')
-
     def format_date(self, entry):
         # Extract and format the published date
         try:
@@ -31,8 +25,6 @@ class BaseIngestor:
         return hashlib.sha256(hash_input.encode('utf-8')).hexdigest()
 
     def format_entry(self, entry):
-        title_slug = self.slugify(entry.title)
-        date_str = self.format_date(entry)
         full_text = self.fetch_full_text(entry.link)
 
         data = {

@@ -22,11 +22,11 @@ app.conf.beat_schedule = {
         "args": (),
     },
 
-    # "check-NYTfeed-every-5-minutes": {
-    #     "task": "justinsight.tasks.nytLogger_task",
-    #     "schedule": 300.0,
-    #     "args": (),
-    # },
+    "check-CNNfeed-every-5-minutes": {
+        "task": "justinsight.tasks.cnnLogger_task",
+        "schedule": 5.0,
+        "args": (),
+    },
 
     #schedule more tasks here
 }
