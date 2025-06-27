@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 import requests
-from src.ingest.base_ingestor import BaseIngestor
+from ingest.base_ingestor import BaseIngestor
 
 class BBCIngestor(BaseIngestor):
     RSS_URL = "http://feeds.bbci.co.uk/news/world/rss.xml"

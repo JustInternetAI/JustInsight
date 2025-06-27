@@ -5,7 +5,8 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-
+    environment:
+      - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
     # bind-mount your repo and the shared EBS volume
     volumes:
       - ./:/workspace:cached
@@ -26,6 +27,8 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
+    environment:
+      - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
     volumes:
       - .:/workspace:cached
       - mongo_data:/data/db 
@@ -39,6 +42,8 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
+    environment:
+      - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
     volumes:
       - .:/workspace:cached
     depends_on:

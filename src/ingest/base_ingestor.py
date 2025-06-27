@@ -2,7 +2,7 @@ import datetime
 import feedparser
 import hashlib
 import re
-from src.ingest.save_to_database import save_entry
+from ingest.save_to_database import save_entry
 
 class BaseIngestor:
     RSS_URL = None #will be set by the subclasses 
