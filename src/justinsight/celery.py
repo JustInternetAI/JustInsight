@@ -18,15 +18,15 @@ app.conf.beat_schedule = {
 
     "check-BBCfeed-every-5-minutes": {
         "task": "justinsight.tasks.bbcLogger_task",
-        "schedule": 300.0,
+        "schedule": 5.0,
         "args": (),
     },
 
-    "check-NYTfeed-every-5-minutes": {
-        "task": "justinsight.tasks.nytLogger_task",
-        "schedule": 300.0,
-        "args": (),
-    },
+    # "check-NYTfeed-every-5-minutes": {
+    #     "task": "justinsight.tasks.nytLogger_task",
+    #     "schedule": 300.0,
+    #     "args": (),
+    # },
 
     #schedule more tasks here
 }
