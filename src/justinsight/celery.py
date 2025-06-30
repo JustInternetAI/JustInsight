@@ -28,6 +28,12 @@ app.conf.beat_schedule = {
         "args": (),
     },
 
+    "check-CBSfeed-every-5-minutes": {
+        "task": "justinsight.tasks.cbsLogger_task",
+        "schedule": 5.0,
+        "args": (),
+    },
+
     "check-CNNfeed-every-5-minutes": {
         "task": "justinsight.tasks.cnnLogger_task",
         "schedule": 5.0,

@@ -1,6 +1,7 @@
 from celery import shared_task
 from ingest.ap_ingestor import APIngestor
 from ingest.bbc_ingestor import BBCIngestor
+from ingest.cbs_ingestor import CBSIngestor
 from ingest.cnn_ingestor import CNNIngestor
 from ingest.latimes_ingestor import LATIMESIngestor
 from ingest.nbc_ingestor import NBCIngestor
@@ -26,6 +27,13 @@ def bbcLogger_task():
     ingestor = BBCIngestor()
     ingestor.check_and_save_new_entries()  # this will invoke the inherited logic
     return "BBC RSS Feed checked."
+
+@shared_task
+def cbsLogger_task():
+    # Create an instance of the class
+    ingestor = CBSIngestor()
+    ingestor.check_and_save_new_entries()  # this will invoke the inherited logic
+    return "CBS RSS Feed checked."
 
 @shared_task
 def cnnLogger_task():
