@@ -1,5 +1,3 @@
-version: '3.8'
- 
 services:
   justinsight_service:
     build:
@@ -63,6 +61,26 @@ services:
     volumes:
       - mongo_data:/data/db 
       - .:/workspace:cached
+
+  #will go in the docker-compose.gpu.yml file once we deploy
+  celery_gpu_worker:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    command: ["celery", "-A", justinsight.celery, "worker", "-Q", "gpu", "--loglevel=info"] #the lowercase j is actually so important
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+    volumes:
+      - .:/workspace:cached
+      - mongo_data:/data/db 
+    depends_on:
+      - redis
+      - mongo
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
 
 volumes:
   mongo_data:

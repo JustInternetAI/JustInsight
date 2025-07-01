@@ -53,4 +53,5 @@ Please run: docker compose up -d
 Then: docker exec -it mongo mongosh -u myuser -p mypassword  
 Then: use justinsightdb
 Then: db.articles.find().pretty()  
-Note - you may need to download mongosh for this to work and to exit the mongosh environment just run 'exit'. Remember to 'docker compose down' as the containers will be running in the background.
+Note - you may need to download mongosh for this to work and to exit the mongosh environment just run 'exit'. Remember to 'docker compose down' as the containers will be running in the background.  
+Note - to delete everything in your database follow the same steps but instead of db.articles.find().pretty() do db.dropDatabase()

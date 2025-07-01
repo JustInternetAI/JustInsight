@@ -22,6 +22,6 @@ class APIngestor(BaseIngestor):
                 return full_text.strip()
 
         except Exception as e:
-            print(f"Playwright error fetching {url}: {e}")
+            print(f"Playwright error fetching {article_url}: {e}")
             return ""
     
