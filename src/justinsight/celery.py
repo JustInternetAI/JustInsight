@@ -17,18 +17,18 @@ app.conf.beat_schedule = {
     # },
 
     #BUGGY Not fixing right now
-    # "check-APfeed-every-5-minutes": {
-    #     "task": "justinsight.tasks.apLogger_task",
-    #     "schedule": 5.0,
-    #     "args": (),
-    # },
-
-    #this feed is WORKING
-    "check-BBCfeed-every-5-minutes": {
-        "task": "justinsight.tasks.bbcLogger_task",
+    "check-APfeed-every-5-minutes": {
+        "task": "justinsight.tasks.apLogger_task",
         "schedule": 5.0,
         "args": (),
     },
+
+    #this feed is WORKING
+    # "check-BBCfeed-every-5-minutes": {
+    #     "task": "justinsight.tasks.bbcLogger_task",
+    #     "schedule": 5.0,
+    #     "args": (),
+    # },
 
     #ALSO BUGGY
     # "check-CBSfeed-every-5-minutes": {
