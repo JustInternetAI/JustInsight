@@ -41,4 +41,5 @@ class BaseIngestor:
         feed = feedparser.parse(self.RSS_URL)
 
         for entry in feed.entries:
-            save_entry(self.format_entry(entry), using_celery)
+            formattedEntry = self.format_entry(entry)
+            save_entry(formattedEntry, using_celery)
