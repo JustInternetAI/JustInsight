@@ -3,6 +3,7 @@ src/celerybeat-schedule.*
 feed*.json
 .DS_Store
 .venv
+.env
 
 # Ignore all __pycache__ directories at any level
 **/__pycache__/
