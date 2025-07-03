@@ -6,12 +6,13 @@ from celery.exceptions import NotRegistered
 # Default to local MongoDB when not using docker
 #mongodb_uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
 #mongodb_uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
-mongodb_uri = os.getenv(
-    "MONGODB_URI",
-    "mongodb://myuser:mypassword@localhost:27017/justinsightdb?authSource=admin"
-)
+# mongodb_uri = os.getenv(
+#     "MONGODB_URI",
+#     "mongodb://myuser:mypassword@localhost:27017/justinsightdb?authSource=admin"
+# )
 # Include username, password, and authentication database
-client = MongoClient(mongodb_uri)
+
+client = MongoClient("mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin")
 
 # Get (or create) a database
 db = client["justinsightdb"]
@@ -23,8 +24,9 @@ def save_entry(entry, using_celery):
     #locally import tasks just in this method to prevent circular import
     from justinsight.tasks import runNER_task
 
-    #for debugging 
-    print(db.command("dbstats"))
+    #dont save entries without body text
+    if entry["full_text"] == "" or entry["full_text"] == None:
+        return
 
     #check if the entry has already been saved and if it has not then save it
     entry_hash = entry["id"]
@@ -45,4 +47,4 @@ def save_entry(entry, using_celery):
             runNER_task(str(inserted_id))
 
 
-        print(f"I have now saved: {entry['title']}")
+        #print(f"I have now saved: {entry['title']}")
