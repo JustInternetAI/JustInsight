@@ -21,3 +21,6 @@ def save_entry(entry):
     if collection.count_documents({"id": entry_hash}) == 0:
         collection.insert_one(entry)
         print(f"I have now saved: {entry['title']}")
+
+def update_article(article_id: str, updates: dict):
+    collection.update_one({"id": article_id}, {"$set": updates})
