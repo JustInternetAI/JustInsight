@@ -1,6 +1,10 @@
 # Use an official PyTorch image with CUDA support
 FROM pytorch/pytorch:2.0.1-cuda11.7-cudnn8-runtime
 
+#Need this to prevent the playwright deps from hanging during the install
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
 # Install Git (and any other system tools you need)
 RUN apt-get update && \
     apt-get install -y python3 python3-pip git && \
@@ -10,6 +14,8 @@ RUN apt-get update && \
 COPY requirements.txt /workspace/requirements.txt
 RUN pip install --no-cache-dir -r /workspace/requirements.txt
 
+RUN playwright install
+RUN playwright install-deps 
 # Set working directory
 WORKDIR /workspace
 

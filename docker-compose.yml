@@ -1,12 +1,10 @@
-version: '3.8'
- 
 services:
   justinsight_service:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    environment:
-      - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
+    # environment:
+    #   - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
     # bind-mount your repo and the shared EBS volume
     volumes:
       - ./:/workspace:cached
@@ -27,8 +25,8 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    environment:
-      - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
+    # environment:
+    #   - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
     volumes:
       - .:/workspace:cached
       - mongo_data:/data/db 
@@ -42,8 +40,8 @@ services:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    environment:
-      - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
+    # environment:
+    #   - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
     volumes:
       - .:/workspace:cached
     depends_on:
@@ -63,6 +61,42 @@ services:
     volumes:
       - mongo_data:/data/db 
       - .:/workspace:cached
+
+  streamlitapp:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    container_name: streamlit
+    ports:
+      - "8501:8501"
+    depends_on:
+      - mongo
+    environment:
+      -  MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
+    volumes:
+      # - mongo_data:/data/db 
+      - .:/workspace:cached
+    command: ["streamlit", "run", "src/justinsight/streamlitapp.py"]
+
+  #will go in the docker-compose.gpu.yml file once we deploy
+  # celery_gpu_worker:
+  #   build:
+  #     context: .
+  #     dockerfile: .docker/Dockerfile
+  #   command: ["celery", "-A", justinsight.celery, "worker", "-Q", "gpu", "--loglevel=info"] #the lowercase j is actually so important
+  #   environment:
+  #     - CELERY_BROKER_URL=redis://redis:6379/0
+  #   volumes:
+  #     - .:/workspace:cached
+  #     - mongo_data:/data/db 
+  #   depends_on:
+  #     - redis
+  #     - mongo
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - capabilities: [gpu]
 
 volumes:
   mongo_data:

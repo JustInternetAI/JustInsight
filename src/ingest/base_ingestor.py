@@ -37,8 +37,18 @@ class BaseIngestor:
         }
         return data
 
-    def check_and_save_new_entries(self):
+    def check_and_save_new_entries(self, using_celery=False):
         feed = feedparser.parse(self.RSS_URL)
 
         for entry in feed.entries:
-            save_entry(self.format_entry(entry))
+            formattedEntry = self.format_entry(entry)
+            save_entry(formattedEntry, using_celery)
+
+    def check_no_save_new_entries(self):
+        feed = feedparser.parse(self.RSS_URL)
+        all_entries = []
+        
+        for entry in feed.entries:
+            all_entries.append(self.format_entry(entry))
+        
+        return all_entries

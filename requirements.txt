@@ -4,3 +4,4 @@ feedparser
 playwright
 pymongo
 requests
+streamlit

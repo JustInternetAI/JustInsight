@@ -8,6 +8,7 @@
 #brew tap mongodb/brew
 #brew install mongodb-community
 #brew services start mongodb-community
+#playwright install 
 #deactivate
 
 #then we can start testing
@@ -15,11 +16,6 @@
 #then, run: pytest 
 #or if you want to see printed output from your tests: pytest -s
 
-from justinsight.tasks import bbcLogger_task
-
 
 def test_add():
     assert 1 + 1 == 2
-
-def test_bbcCheck():
-    bbcLogger_task()

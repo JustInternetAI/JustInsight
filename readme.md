@@ -49,8 +49,9 @@ Note: When running in background you can use "docker logs <container_name_or_id>
 
 
 ## How to check what's in the database
-Please run: docker compose up -d  
+Please run: docker compose up -d --build
 Then: docker exec -it mongo mongosh -u myuser -p mypassword  
 Then: use justinsightdb
 Then: db.articles.find().pretty()  
-Note - you may need to download mongosh for this to work and to exit the mongosh environment just run 'exit'. Remember to 'docker compose down' as the containers will be running in the background.
+Note - you may need to download mongosh for this to work and to exit the mongosh environment just run 'exit'. Remember to 'docker compose down' as the containers will be running in the background.  
+Note - to delete everything in your database run the docker in detached mode and then run ./scripts/clear_db.sh
