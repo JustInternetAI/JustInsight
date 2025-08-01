@@ -1,25 +1,68 @@
 version: '3.8'
-
+ 
 services:
   justinsight_service:
     build:
       context: .
       dockerfile: .docker/Dockerfile
-    gpus: all
-
+    environment:
+      - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
     # bind-mount your repo and the shared EBS volume
     volumes:
-      - /home/${USER}/workspace/justinsight:/workspace:cached
-      - /mnt/shared:/workspace/shared:cached
+      - ./:/workspace:cached
+      - ./shared:/workspace/shared:cached
 
     # ensure entrypoint.sh runs (clones & checks out the right branch)
-    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    #entrypoint: ["/usr/local/bin/entrypoint.sh"]
     command: ["bash"]
     stdin_open: true
     tty: true
+    
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
 
-
-    # optional: default branch (can be overridden per-run)
+  celery_worker:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
     environment:
-      - BRANCH=master
+      - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
+    volumes:
+      - .:/workspace:cached
+      - mongo_data:/data/db 
+    depends_on:
+      - redis
+      - mongo
+    #entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    command: ["celery", "-A", justinsight.celery, "worker", "--loglevel=info"] #the lowercase j is actually so important
 
+  celery_beat:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    environment:
+      - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
+    volumes:
+      - .:/workspace:cached
+    depends_on:
+      - redis
+    #entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    command: ["celery", "-A", justinsight.celery, "beat", "--loglevel=info"] #the lowercase j is actually so important
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: myuser
+      MONGO_INITDB_ROOT_PASSWORD: mypassword
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db 
+      - .:/workspace:cached
+
+volumes:
+  mongo_data:

@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  justinsight_service:
+    gpus: all
+  celery_worker:
+    gpus: all
+  celery_beat:
+    gpus: all

@@ -1,0 +1,22 @@
+celerybeat-schedule.*
+src/celerybeat-schedule.*
+feed*.json
+.DS_Store
+.venv
+
+# Ignore all __pycache__ directories at any level
+**/__pycache__/
+
+# Ignore all compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+#Ignore saved data
+data/*
+
+# Packaging
+*.egg
+*.egg-info/
+dist/
+build/
