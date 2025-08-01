@@ -1,6 +1,6 @@
 from celery import Celery
-from ingest.save_to_database import collection, update_article
-from nlp.core import run_ner_hf
+from ingest.save_to_database import collection
+from nlp.core import run_ner_hf, process_article
 
 app = Celery("justinsight")  # Use your actual Celery config if not centralized here
 
@@ -21,11 +21,13 @@ def ner_task(article_id: str):
     # Run Named Entity Recognition
     entities = run_ner_hf(text)
 
-    # Update article with NER results
-    update_article(article_id, {
+    # Process article with NER results
+    process_article(article_id, {
         "entities": entities,
-        "ner_processed": True  # ✅ flag added here
+        "ner_processed": True  # flag added here
     })
 
+    print(collection)
+    print(collection.__module__)
     print(f"Processed article {article_id} with {len(entities)} entities.")
     return entities

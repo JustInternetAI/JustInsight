@@ -1,20 +1,10 @@
 from transformers import pipeline
 from ingest.save_to_database import collection, update_article
 
-# Load once, reuse
-ner_pipeline = pipeline("ner", model="dslim/bert-base-NER", grouped_entities=True)
+ner = pipeline("ner", model="dslim/bert-base-NER", aggregation_strategy="simple")
 
 def run_ner_hf(text: str):
-    results = ner_pipeline(text)
-    return [
-        {
-            "text": ent["word"],
-            "label": ent["entity_group"],
-            "start": ent["start"],
-            "end": ent["end"]
-        }
-        for ent in results
-    ]
+    return ner(text)
 
 def process_article(article_id: str):
     #Retrieve article by ID
