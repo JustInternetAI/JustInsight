@@ -31,6 +31,13 @@ def save_entry(entry, using_celery):
     #check if the entry has already been saved and if it has not then save it
     entry_hash = entry["id"]
     if collection.count_documents({"id": entry_hash}) == 0:
+
+        collection.insert_one(entry)
+        print(f"I have now saved: {entry['title']}")
+
+def update_article(article_id: str, updates: dict):
+    collection.update_one({"id": article_id}, {"$set": updates})
+
         result = collection.insert_one(entry)
         inserted_id = result.inserted_id
 
@@ -48,3 +55,4 @@ def save_entry(entry, using_celery):
 
 
         #print(f"I have now saved: {entry['title']}")
+

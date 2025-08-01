@@ -1,0 +1,6 @@
+pip install transformers
+pip install torch
+pip install celery
+pip install click
+pip install pytest
+pip install pymongo
