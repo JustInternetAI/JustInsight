@@ -16,6 +16,7 @@ app.conf.beat_schedule = {
     #     "args": (),
     # },
 
+    # NOT SAVING ANYTHING? WHAT HAPPENED
     "check-APfeed-every-5-minutes": {
         "task": "justinsight.tasks.apLogger_task",
         "schedule": 5.0,
