@@ -38,6 +38,13 @@ def process_article(article_id: str):
 
     return
 
+def format_ner_tags(ner_list):
+    formatted = []
+    for ent in ner_list:
+        label = ent.get("label") or ent.get("entity") or "UNKNOWN"
+        text = ent.get("text") or ent.get("word") or ""
+        formatted.append(f"{label}: {text}")
+    return ", ".join(formatted)
 
 def addToEntryInDB(entry_id, updates):
     print("Adding NER results to database\r\r\r")
@@ -45,6 +52,7 @@ def addToEntryInDB(entry_id, updates):
     if "ner" in updates:
         for ent in updates["ner"]:
             ent["score"] = float(ent["score"])  # convert np.float32 to Python float
+            updates["ner_pretty"] = format_ner_tags(updates["ner"]) # so we can actually read the NER
 
     id = ObjectId(entry_id)
     collection.update_one(
