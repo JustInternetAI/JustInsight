@@ -3,5 +3,10 @@ celery[redis]
 feedparser
 playwright
 pymongo
+pytest
 requests
 streamlit
+
+transformers
+torch
+click

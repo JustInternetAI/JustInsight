@@ -3,11 +3,9 @@ import streamlit as st
 from pymongo import MongoClient
 import pandas as pd
 
-# Default to local MongoDB when not using docker --- NO I dont want a local database at all
-#mongo_uri = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
+st.set_page_config(layout="wide")
 
 # Include username, password, and authentication database
-#client = MongoClient(mongo_uri)
 client = MongoClient(os.getenv("MONGODB_URI"))
 
 # Get (or create) a database
@@ -26,4 +24,13 @@ for doc in data:
     doc['_id'] = str(doc['_id'])
 
 df = pd.DataFrame(data)
-st.dataframe(df)
+
+columns_to_show = st.multiselect("Columns to display", options=df.columns.tolist(), default=df.columns.tolist())
+st.dataframe(df[columns_to_show])#, use_container_width=True)
+
+# for i, row in df[columns_to_show].iterrows():
+#     st.markdown(f"### Entry {i+1}")
+#     st.write(row.to_dict())
+
+
+
