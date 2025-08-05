@@ -38,7 +38,12 @@ class BaseIngestor:
         return data
 
     def check_and_save_new_entries(self, using_celery=False):
-        feed = feedparser.parse(self.RSS_URL)
+        # feed = feedparser.parse(self.RSS_URL)
+        # this is supposed to help us not get rate limited
+        feed = feedparser.parse(
+            self.RSS_URL,
+            request_headers={"User-Agent": "Mozilla/5.0 (compatible; JustInsightBot/1.0)"}
+        )
 
         for entry in feed.entries:
             formattedEntry = self.format_entry(entry)
