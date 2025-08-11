@@ -23,11 +23,11 @@ app.conf.beat_schedule = {
     #     "args": (),
     # },
 
-    "check-BBCfeed-every-5-minutes": {
-        "task": "justinsight.tasks.bbcLogger_task",
-        "schedule": 5.0,
-        "args": (),
-    },
+    # "check-BBCfeed-every-5-minutes": {
+    #     "task": "justinsight.tasks.bbcLogger_task",
+    #     "schedule": 5.0,
+    #     "args": (),
+    # },
 
     # "check-CBSfeed-every-5-minutes": {
     #     "task": "justinsight.tasks.cbsLogger_task",
