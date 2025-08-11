@@ -16,6 +16,7 @@ def save_entry(entry, using_celery):
 
     #dont save entries without body text
     if entry["full_text"] == "" or entry["full_text"] == None:
+        print("Unable to fetch full text.")
         return
 
     #check if the entry has already been saved and if it has not then save it
@@ -34,10 +35,13 @@ def save_entry(entry, using_celery):
                 current_app.tasks[ner_task.name]
                 #TODO: The following line can be used when connected to EC2 to actually use a GPU
                 #ner_task.apply_async(args=[str(inserted_id)], queue='gpu')
+                print("Checkpoint 1")
                 ner_task.apply_async(args=[str(inserted_id)])
             except NotRegistered:
                 # fallback to inline
+                print("Checkpoint 2")
                 ner_task(str(inserted_id))
         else:
             # Inline execution
+            print("Checkpoint 3")
             ner_task(str(inserted_id))

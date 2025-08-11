@@ -46,14 +46,9 @@ class BaseIngestor:
         )
 
         for entry in feed.entries:
+            # print("\n--- ENTRY ---")
+            # for k, v in entry.items():
+            #     print(f"{k}: {v}")
+            # print(entry.link)
             formattedEntry = self.format_entry(entry)
             save_entry(formattedEntry, using_celery)
-
-    def check_no_save_new_entries(self):
-        feed = feedparser.parse(self.RSS_URL)
-        all_entries = []
-        
-        for entry in feed.entries:
-            all_entries.append(self.format_entry(entry))
-        
-        return all_entries
