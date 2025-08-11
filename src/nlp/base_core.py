@@ -13,18 +13,14 @@ class BaseCore:
     def __init__(self, task: str, model_name: str, aggregation_strategy: str = None):
         self.task = task
         self.model_name = model_name
-        self.aggregation_strategy = self._load_pipeline()
+        self.aggregation_strategy = aggregation_strategy
+        self.pipeline = self.load_pipeline()
 
-    def _load_pipeline(self):
-        args = {
-            "task": self.task,
-            "model": self.model_name
-        }
-
+    def load_pipeline(self):
         if self.task == "ner" and self.aggregation_strategy:
-            args["aggregation_strategy"] = self.aggregation_strategy
+            return pipeline(self.task, model=self.model_name, aggregation_strategy=self.aggregation_strategy)
 
-        return pipeline(args)
+        return pipeline(self.task, model=self.model_name)
 
     def process_article(self, article_id: str):
         #Retrieve article by ID

@@ -10,7 +10,7 @@ from ingest.nyt_ingestor import NYTIngestor
 from ingest.usnews_ingestor import USNEWSIngestor
 from .nlpthings import dummy_addToEntryInDB
 from ingest.save_to_database import collection
-from nlp.core import process_article
+from nlp.ner_core import NERCore
 from bson import ObjectId
 
 @shared_task
@@ -90,8 +90,9 @@ def runNER_task(entry_id):
 @shared_task
 def ner_task(article_id):
     # Process article with NER results
+    core = NERCore()
     print("Actually trying to do NER!!!")
-    process_article(article_id)
+    core.process_article(article_id)
 
 
 
