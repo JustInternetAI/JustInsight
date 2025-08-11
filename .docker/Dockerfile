@@ -13,7 +13,7 @@ RUN apt-get update && \
 # Install requirements
 COPY requirements.txt /workspace/requirements.txt
 RUN pip install --no-cache-dir -r /workspace/requirements.txt
-RUN pip install torch==2.1.2 torchvision --index-url https://download.pytorch.org/whl/cpu
+RUN pip install torch==2.4.0 torchvision --index-url https://download.pytorch.org/whl/cpu
 
 
 RUN playwright install

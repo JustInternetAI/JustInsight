@@ -8,7 +8,7 @@ from ingest.nbc_ingestor import NBCIngestor
 from ingest.npr_ingestor import NPRIngestor
 from ingest.nyt_ingestor import NYTIngestor
 from ingest.usnews_ingestor import USNEWSIngestor
-from nlp.core import process_article
+from nlp.ner_core import NERCore
 
 @shared_task
 def sample_task():
@@ -80,8 +80,10 @@ def usnewsLogger_task():
 @shared_task
 def ner_task(article_id):
     # Process article with NER results
+    print("In the NER task")
+    core = NERCore()
     print("Actually trying to do NER!!!")
-    process_article(article_id)
+    core.process_article(article_id)
 
 
 
