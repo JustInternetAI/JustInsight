@@ -90,6 +90,7 @@ def runNER_task(entry_id):
 @shared_task
 def ner_task(article_id):
     # Process article with NER results
+    print("In the NER task")
     core = NERCore()
     print("Actually trying to do NER!!!")
     core.process_article(article_id)

@@ -4,6 +4,7 @@ from bson import ObjectId
 
 class NERCore(BaseCore):
     def __init__(self):
+        print("constructing NER Core instance")
         super().__init__(
             task="ner",
             model_name="dslim/bert-base-NER",

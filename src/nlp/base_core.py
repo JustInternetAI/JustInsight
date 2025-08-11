@@ -20,6 +20,7 @@ class BaseCore:
         if self.task == "ner" and self.aggregation_strategy:
             return pipeline(self.task, model=self.model_name, aggregation_strategy=self.aggregation_strategy)
 
+        print(f"pipeline loading...")
         return pipeline(self.task, model=self.model_name)
 
     def process_article(self, article_id: str):
