@@ -4,6 +4,7 @@ from ingest.base_ingestor import BaseIngestor
 
 class CNNIngestor(BaseIngestor):
     RSS_URL = "http://rss.cnn.com/rss/cnn_world.rss"
+    # This RSS feed is from 2023????????
         
     def fetch_full_text(self, url):
         try:
