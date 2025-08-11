@@ -15,7 +15,7 @@ def process_article(article_id: str):
 
     if not article:
         print(f"No article found with ID: {article_id}")
-        return []
+        return
 
     if article.get("processed") is True:
         print(f"Article {article_id} already processed.")
@@ -23,9 +23,6 @@ def process_article(article_id: str):
 
     # We have a check running so only articles with full text are saved
     full_text = article.get("full_text", "")
-    # if not full_text:
-    #     print(f"Article {article_id} has no full text.")
-    #     return
 
     # Run NER
     entities = ner(full_text) # run_ner_hf(full_text)
@@ -41,14 +38,12 @@ def process_article(article_id: str):
 def format_ner_tags(ner_list):
     formatted = []
     for ent in ner_list:
-        label = ent.get("label") or ent.get("entity") or "UNKNOWN"
-        text = ent.get("text") or ent.get("word") or ""
+        label = ent.get("entity_group")
+        text = ent.get("word")
         formatted.append(f"{label}: {text}")
     return ", ".join(formatted)
 
 def addToEntryInDB(entry_id, updates):
-    print("Adding NER results to database\r\r\r")
-
     if "ner" in updates:
         for ent in updates["ner"]:
             ent["score"] = float(ent["score"])  # convert np.float32 to Python float

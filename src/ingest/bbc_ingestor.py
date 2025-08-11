@@ -10,6 +10,16 @@ class BBCIngestor(BaseIngestor):
         soup = BeautifulSoup(response.content, 'html.parser')
 
         article = soup.find('article')
+        
+        if not article:
+            return None
 
-        if article:
-            return(article.get_text())
+        # # Remove unwanted sections like "related content", "media", or "byline"
+        # for unwanted in article.select('[data-component="byline"], [data-component="media-block"], .bbc-1msyfg1, .bbc-1fxtbkn'):  # classes may vary
+        #     unwanted.decompose()
+
+        # Gather all paragraphs that are part of the article body
+        paragraphs = article.find_all('p')
+
+        cleaned_text = '\n\n'.join(p.get_text(strip=True) for p in paragraphs)
+        return cleaned_text

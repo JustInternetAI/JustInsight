@@ -16,31 +16,35 @@ app.conf.beat_schedule = {
     #     "args": (),
     # },
 
-    # NOT SAVING ANYTHING? WHAT HAPPENED
+    # Maybe we should just give up on getting AP to work...
     # "check-APfeed-every-5-minutes": {
     #     "task": "justinsight.tasks.apLogger_task",
     #     "schedule": 5.0,
     #     "args": (),
     # },
 
-    "check-BBCfeed-every-5-minutes": {
-        "task": "justinsight.tasks.bbcLogger_task",
-        "schedule": 5.0,
-        "args": (),
-    },
+    # Checked and good 
+    # "check-BBCfeed-every-5-minutes": {
+    #     "task": "justinsight.tasks.bbcLogger_task",
+    #     "schedule": 5.0,
+    #     "args": (),
+    # },
 
+    # Checked and good
     # "check-CBSfeed-every-5-minutes": {
     #     "task": "justinsight.tasks.cbsLogger_task",
     #     "schedule": 5.0,
     #     "args": (),
     # },
 
+    # Could not find a current RSS feed for CNN :(
     # "check-CNNfeed-every-5-minutes": {
     #     "task": "justinsight.tasks.cnnLogger_task",
     #     "schedule": 5.0,
     #     "args": (),
     # },
 
+    #I am here
     # "check-LATIMESfeed-every-5-minutes": {
     #     "task": "justinsight.tasks.latimesLogger_task",
     #     "schedule": 5.0,

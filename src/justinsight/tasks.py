@@ -8,10 +8,7 @@ from ingest.nbc_ingestor import NBCIngestor
 from ingest.npr_ingestor import NPRIngestor
 from ingest.nyt_ingestor import NYTIngestor
 from ingest.usnews_ingestor import USNEWSIngestor
-from .nlpthings import dummy_addToEntryInDB
-from ingest.save_to_database import collection
 from nlp.core import process_article
-from bson import ObjectId
 
 @shared_task
 def sample_task():
@@ -79,13 +76,6 @@ def usnewsLogger_task():
     ingestor = USNEWSIngestor()
     ingestor.check_and_save_new_entries(using_celery=True)  # this will invoke the inherited logic
     return "USNEWS RSS Feed checked."
-
-
-@shared_task
-def runNER_task(entry_id):
-    print(f"New worker so we can use GPU on this entry id: {entry_id}")
-    dummy_addToEntryInDB(entry_id)
-    #Do GPU-dependent processing here
 
 @shared_task
 def ner_task(article_id):

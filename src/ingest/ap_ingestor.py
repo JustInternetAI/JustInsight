@@ -32,12 +32,17 @@ class APIngestor(BaseIngestor):
         try:
             with sync_playwright() as p:
                 browser = p.chromium.launch(headless=True)
-                page = browser.new_page()
+                context = browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
+                          viewport={"width": 1280, "height": 800})
+                page = context.new_page()
+
+                # browser = p.chromium.launch(headless=True)
+                # page = browser.new_page()
 
                 #change the article_url to the redirected one (or just the same)
                 article_url = self.resolve_google_news_redirect(article_url)
                 #print(article_url)
-                page.goto(article_url, wait_until="domcontentloaded", timeout=15000)
+                page.goto(article_url, wait_until="domcontentloaded", timeout=30000)
 
                 # Wait for the main article body to load
                 page.wait_for_selector('div.RichTextStoryBody', timeout=3000)
@@ -50,6 +55,6 @@ class APIngestor(BaseIngestor):
                 return full_text.strip()
 
         except Exception as e:
-            #print(f"Playwright error fetching {article_url}: {e}")
+            print(f"Playwright error fetching {article_url}: {e}")
             return ""
     
