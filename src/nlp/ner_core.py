@@ -30,8 +30,10 @@ class NERCore(BaseCore):
         #     return
 
         # Run NER
+        print("about to run NER")
         entities = self.pipeline(full_text) # run_ner_hf(full_text)
- 
+        print("ran NER yay")
+
         # Update article in DB
         self.addToEntryInDB(article_id, {
             "ner": entities,
