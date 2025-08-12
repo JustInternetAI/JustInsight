@@ -10,12 +10,6 @@ app = Celery(
 
 # Optional beat schedule
 app.conf.beat_schedule = {
-    # "sample-task-every-5-seconds": {
-    #     "task": "justinsight.tasks.sample_task",
-    #     "schedule": 5.0,
-    #     "args": (),
-    # },
-
     # Maybe we should just give up on getting AP to work...
     # "check-APfeed-every-5-minutes": {
     #     "task": "justinsight.tasks.apLogger_task",
@@ -31,11 +25,11 @@ app.conf.beat_schedule = {
     },
 
     # Checked and good
-    # "check-CBSfeed-every-5-minutes": {
-    #     "task": "justinsight.tasks.cbsLogger_task",
-    #     "schedule": 5.0,
-    #     "args": (),
-    # },
+    "check-CBSfeed-every-5-minutes": {
+        "task": "justinsight.tasks.cbsLogger_task",
+        "schedule": 5.0,
+        "args": (),
+    },
 
     # Could not find a current RSS feed for CNN :(
     # "check-CNNfeed-every-5-minutes": {
@@ -44,31 +38,35 @@ app.conf.beat_schedule = {
     #     "args": (),
     # },
 
-    #I am here
+    #No full-text at all -- only diagnosing issues right now
     # "check-LATIMESfeed-every-5-minutes": {
     #     "task": "justinsight.tasks.latimesLogger_task",
     #     "schedule": 5.0,
     #     "args": (),
     # },
 
-    # "check-NBCfeed-every-5-minutes": {
-    #     "task": "justinsight.tasks.nbcLogger_task",
-    #     "schedule": 5.0,
-    #     "args": (),
-    # },
+    # Checked and seems good
+    "check-NBCfeed-every-5-minutes": {
+        "task": "justinsight.tasks.nbcLogger_task",
+        "schedule": 5.0,
+        "args": (),
+    },
 
-    # "check-NPRfeed-every-5-minutes": {
-    #     "task": "justinsight.tasks.nprLogger_task",
-    #     "schedule": 5.0,
-    #     "args": (),
-    # },
+    # Checked and good 
+    "check-NPRfeed-every-5-minutes": {
+        "task": "justinsight.tasks.nprLogger_task",
+        "schedule": 5.0,
+        "args": (),
+    },
 
+    # Unable to access full text
     # "check-NYTfeed-every-5-minutes": {
     #     "task": "justinsight.tasks.nytLogger_task",
     #     "schedule": 5.0,
     #     "args": (),
     # },
 
+    # Stalls before able ot do anything - I assume an issue with full-text retrieval
     # "check-USNEWSfeed-every-5-minutes": {
     #     "task": "justinsight.tasks.usnewsLogger_task",
     #     "schedule": 5.0,

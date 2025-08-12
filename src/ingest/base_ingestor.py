@@ -1,7 +1,6 @@
 import datetime
 import feedparser
 import hashlib
-import re
 from ingest.save_to_database import save_entry
 
 class BaseIngestor:
@@ -46,9 +45,10 @@ class BaseIngestor:
         )
 
         for entry in feed.entries:
-            # print("\n--- ENTRY ---")
-            # for k, v in entry.items():
-            #     print(f"{k}: {v}")
-            # print(entry.link)
             formattedEntry = self.format_entry(entry)
-            save_entry(formattedEntry, using_celery)
+
+            #dont save entries without body text
+            if formattedEntry["full_text"] == "" or formattedEntry["full_text"] == None:
+                print("Unable to fetch full text.")
+            else:
+                save_entry(formattedEntry, using_celery)

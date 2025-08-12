@@ -14,10 +14,10 @@ def save_entry(entry, using_celery):
     #locally import tasks just in this method to prevent circular import
     from justinsight.tasks import ner_task
 
-    #dont save entries without body text
-    if entry["full_text"] == "" or entry["full_text"] == None:
-        print("Unable to fetch full text.")
-        return
+    # #dont save entries without body text --moved this check earlier in the code
+    # if entry["full_text"] == "" or entry["full_text"] == None:
+    #     print("Unable to fetch full text.")
+    #     return
 
     #check if the entry has already been saved and if it has not then save it
     entry_hash = entry["id"]

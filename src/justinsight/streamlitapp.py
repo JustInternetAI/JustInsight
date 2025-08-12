@@ -28,9 +28,9 @@ df = pd.DataFrame(data)
 columns_to_show = st.multiselect("Columns to display", options=df.columns.tolist(), default=df.columns.tolist())
 st.dataframe(df[columns_to_show])#, use_container_width=True)
 
-for i, row in df[columns_to_show].iterrows():
-    st.markdown(f"### Entry {i+1}")
-    st.write(row.to_dict())
+# for i, row in df[columns_to_show].iterrows():
+#     st.markdown(f"### Entry {i+1}")
+#     st.write(row.to_dict())
 
 
 
