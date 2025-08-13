@@ -78,6 +78,16 @@ services:
       - .:/workspace:cached
     command: ["streamlit", "run", "src/justinsight/streamlitapp.py"]
 
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+
   #will go in the docker-compose.gpu.yml file once we deploy
   # celery_gpu_worker:
   #   build:
@@ -100,3 +110,4 @@ services:
 
 volumes:
   mongo_data:
+  chroma_data:

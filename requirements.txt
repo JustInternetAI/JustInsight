@@ -1,12 +1,14 @@
 beautifulsoup4
 celery[redis]
+chromadb
+click
 feedparser
+langchain-community
 playwright
 pymongo
 pytest
 requests
+sentence_transformers
 streamlit
-
-transformers
 torch
-click
+transformers

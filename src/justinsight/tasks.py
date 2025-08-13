@@ -9,6 +9,7 @@ from ingest.npr_ingestor import NPRIngestor
 from ingest.nyt_ingestor import NYTIngestor
 from ingest.usnews_ingestor import USNEWSIngestor
 from nlp.ner_core import NERCore
+from nlp.insertIntoChroma import ingest_article
 
 @shared_task
 def sample_task():
@@ -85,6 +86,8 @@ def ner_task(article_id):
     print("Actually trying to do NER!!!")
     core.process_article(article_id)
 
-
+@shared_task
+def chroma_task(article_id, title, text, date):
+    ingest_article(article_id, title, text, date)
 
 #Add more tasks here in the format of the one above

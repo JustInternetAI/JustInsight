@@ -13,6 +13,7 @@ collection = db["articles"]
 def save_entry(entry, using_celery):
     #locally import tasks just in this method to prevent circular import
     from justinsight.tasks import ner_task
+    from justinsight.tasks import chroma_task
 
     # #dont save entries without body text --moved this check earlier in the code
     # if entry["full_text"] == "" or entry["full_text"] == None:
@@ -37,11 +38,14 @@ def save_entry(entry, using_celery):
                 #ner_task.apply_async(args=[str(inserted_id)], queue='gpu')
                 print("Checkpoint 1")
                 ner_task.apply_async(args=[str(inserted_id)])
+                chroma_task.apply_async(args=[entry['id'], entry['title'], entry['full_text'], entry['published']])
             except NotRegistered:
                 # fallback to inline
                 print("Checkpoint 2")
                 ner_task(str(inserted_id))
+                chroma_task(entry['id'], entry['title'], entry['full_text'], entry['published'])
         else:
             # Inline execution
             print("Checkpoint 3")
             ner_task(str(inserted_id))
+            chroma_task(entry['id'], entry['title'], entry['full_text'], entry['published'])
