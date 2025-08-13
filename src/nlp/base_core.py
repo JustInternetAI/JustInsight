@@ -17,11 +17,12 @@ class BaseCore:
         self.pipeline = self.load_pipeline()
 
     def load_pipeline(self):
+        args = {"model": self.model_name}
         if self.task == "ner" and self.aggregation_strategy:
-            return pipeline(self.task, model=self.model_name, aggregation_strategy=self.aggregation_strategy)
-
+            args["aggregation_strategy"] = self.aggregation_strategy
+        
         print(f"pipeline loading...")
-        return pipeline(self.task, model=self.model_name)
+        return pipeline(self.task, args)
 
     def process_article(self, article_id: str):
         #Retrieve article by ID

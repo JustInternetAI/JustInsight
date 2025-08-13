@@ -1,4 +1,4 @@
-from nlp.core import run_ner_hf
+from nlp.ner_core import run_ner_hf
 import warnings
 warnings.filterwarnings("ignore", category=UserWarning)
 

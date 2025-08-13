@@ -1,5 +1,5 @@
 import argparse
-from nlp.core import process_article  # adjust if your actual import path differs
+from nlp.ner_core import process_article  # adjust if your actual import path differs
 
 def run_cli(article_id: str):
     entities = process_article(article_id)
