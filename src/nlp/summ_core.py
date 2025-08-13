@@ -2,15 +2,13 @@ from nlp.base_core import BaseCore
 from transformers import pipeline
 from bson import ObjectId
 
-class NERCore(BaseCore):
+class SummCore(BaseCore):
     def __init__(self):
-        print(" NER Core instance constructing")
         super().__init__(
-            task="ner",
-            model_name="dslim/bert-base-NER",
-            aggregation_strategy="simple"
+            task="summarization",
+            model_name="facebook/bart-large-cnn"
         )
-    
+
     def process_article(self, article_id: str):
         #Retrieve article by ID
         article = self.collection.find_one({"_id": ObjectId(article_id)})
@@ -19,7 +17,7 @@ class NERCore(BaseCore):
             print(f"No article found with ID: {article_id}")
             return []
 
-        if article.get("ner_processed") is True:
+        if article.get("summary_processed") is True:
             print(f"Article {article_id} already processed.")
             return []
 
@@ -29,36 +27,30 @@ class NERCore(BaseCore):
         #     print(f"Article {article_id} has no full text.")
         #     return
 
-        # Run NER
-        print("about to run NER")
-        entities = self.pipeline(full_text) # run_ner_hf(full_text)
-        print("ran NER yay")
+        # Run Summarization
+        print("about to run Summarization")
+        summary = self.pipeline(
+            full_text,
+            max_length=150,
+            min_length=30,
+            do_sample=False) # run_ner_hf(full_text)
+        print("ran Summarization yay")
 
         # Update article in DB
         self.addToEntryInDB(article_id, {
-            "ner": entities,
-            "ner_processed": True
+            "hf summary": summary,
+            "summary_processed": True
         })
 
-        return entities
-
-    def format_ner_tags(self, ner_list):
-        formatted = []
-        for ent in ner_list:
-            label = ent.get("label") or ent.get("entity") or ent.get("entity_group", "UNKNOWN")
-            text = ent.get("text") or ent.get("word") or ""
-            formatted.append(f"{label}: {text}")
-        return ", ".join(formatted)
-
+        return summary
+    
     def addToEntryInDB(self, entry_id, updates):
-        print("Adding NER results to database\r\r\r")
+        print("Adding Summarization results to database\r\r\r")
 
-        if "ner" in updates:
-            for ent in updates["ner"]:
+        if "hf summary" in updates:
+            for ent in updates["summarization"]:
                 ent["score"] = float(ent["score"])  # convert np.float32 to Python float
                 
-            updates["ner_pretty"] = self.format_ner_tags(updates["ner"]) # so we can actually read the NER
-
         id = ObjectId(entry_id)
         self.collection.update_one(
             {"_id": id},
