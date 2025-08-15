@@ -43,10 +43,6 @@ class SentCore(BaseCore):
     def addToEntryInDB(self, entry_id, updates):
         print("Adding Sentiment Analysis results to database\r\r\r")
 
-        for res in updates.get("sentiment", []):
-            if "score" in res:
-                res["score"] = float(res["score"])  # convert np.float32 to Python float
-                
         id = ObjectId(entry_id)
         self.collection.update_one(
             {"_id": id},

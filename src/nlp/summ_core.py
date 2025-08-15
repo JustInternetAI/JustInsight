@@ -46,10 +46,6 @@ class SummCore(BaseCore):
     
     def addToEntryInDB(self, entry_id, updates):
         print("Adding Summarization results to database\r\r\r")
-
-        if "hf summary" in updates:
-            for ent in updates["summarization"]:
-                ent["score"] = float(ent["score"])  # convert np.float32 to Python float
                 
         id = ObjectId(entry_id)
         self.collection.update_one(

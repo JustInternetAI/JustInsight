@@ -9,6 +9,8 @@ from ingest.npr_ingestor import NPRIngestor
 from ingest.nyt_ingestor import NYTIngestor
 from ingest.usnews_ingestor import USNEWSIngestor
 from nlp.ner_core import NERCore
+from nlp.ner_core import SummCore
+from nlp.ner_core import SentCore
 
 @shared_task
 def sample_task():
@@ -85,6 +87,20 @@ def ner_task(article_id):
     print("Actually trying to do NER!!!")
     core.process_article(article_id)
 
+@shared_task
+def summ_task(article_id):
+    # Process article with Summary results
+    print("In the Summary task")
+    core = SummCore()
+    print("Actually trying to do Summary!!!")
+    core.process_article(article_id)
 
+@shared_task
+def sent_task(article_id):
+    # Process article with Sentiment Analysis results
+    print("In the Sentiment Analysis task")
+    core = SentCore()
+    print("Actually trying to do Sentiment Analysis!!!")
+    core.process_article(article_id)
 
 #Add more tasks here in the format of the one above

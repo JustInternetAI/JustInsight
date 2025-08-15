@@ -13,6 +13,8 @@ collection = db["articles"]
 def save_entry(entry, using_celery):
     #locally import tasks just in this method to prevent circular import
     from justinsight.tasks import ner_task
+    from justinsight.tasks import summ_task
+    from justinsight.tasks import sent_task
 
     #dont save entries without body text
     if entry["full_text"] == "" or entry["full_text"] == None:
@@ -37,11 +39,19 @@ def save_entry(entry, using_celery):
                 #ner_task.apply_async(args=[str(inserted_id)], queue='gpu')
                 print("Checkpoint 1")
                 ner_task.apply_async(args=[str(inserted_id)])
+                summ_task.apply_async(args=[str(inserted_id)])
+                sent_task.apply_async(args=[str(inserted_id)])
             except NotRegistered:
                 # fallback to inline
                 print("Checkpoint 2")
                 ner_task(str(inserted_id))
+                summ_task(str(inserted_id))
+                sent_task(str(inserted_id))
         else:
             # Inline execution
             print("Checkpoint 3")
             ner_task(str(inserted_id))
+            summ_task(str(inserted_id))
+            sent_task(str(inserted_id))
+
+
