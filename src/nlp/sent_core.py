@@ -22,7 +22,7 @@ class SentCore(BaseCore):
             return []
 
         # We have a check running so only articles with full text are saved
-        full_text = article.get("full_text", "")
+        full_text = str(article.get("full_text", ""))
         # if not full_text:
         #     print(f"Article {article_id} has no full text.")
         #     return

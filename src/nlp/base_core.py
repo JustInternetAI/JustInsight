@@ -32,10 +32,6 @@ class BaseCore:
             print(f"No article found with ID: {article_id}")
             return []
 
-        if article.get("processed") is True:
-            print(f"Article {article_id} already processed.")
-            return
-
         # We have a check running so only articles with full text are saved
         full_text = article.get("full_text", "")
         # if not full_text:
@@ -47,7 +43,6 @@ class BaseCore:
         self.collection.update_one(
             {"_id": ObjectId(article_id)},
             {"$set": {
-                "processed": True,
                 "entities": entities
             }}
         )

@@ -9,8 +9,8 @@ from ingest.npr_ingestor import NPRIngestor
 from ingest.nyt_ingestor import NYTIngestor
 from ingest.usnews_ingestor import USNEWSIngestor
 from nlp.ner_core import NERCore
-from nlp.ner_core import SummCore
-from nlp.ner_core import SentCore
+from nlp.summ_core import SummCore
+from nlp.sent_core import SentCore
 
 @shared_task
 def sample_task():
