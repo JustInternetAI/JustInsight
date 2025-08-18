@@ -25,11 +25,11 @@ app.conf.beat_schedule = {
     },
 
     # Checked and good
-    "check-CBSfeed-every-5-minutes": {
-        "task": "justinsight.tasks.cbsLogger_task",
-        "schedule": 5.0,
-        "args": (),
-    },
+    # "check-CBSfeed-every-5-minutes": {
+    #     "task": "justinsight.tasks.cbsLogger_task",
+    #     "schedule": 5.0,
+    #     "args": (),
+    # },
 
     # Could not find a current RSS feed for CNN :(
     # "check-CNNfeed-every-5-minutes": {
@@ -46,18 +46,18 @@ app.conf.beat_schedule = {
     # },
 
     # Checked and seems good
-    "check-NBCfeed-every-5-minutes": {
-        "task": "justinsight.tasks.nbcLogger_task",
-        "schedule": 5.0,
-        "args": (),
-    },
+    # "check-NBCfeed-every-5-minutes": {
+    #     "task": "justinsight.tasks.nbcLogger_task",
+    #     "schedule": 5.0,
+    #     "args": (),
+    # },
 
     # Checked and good 
-    "check-NPRfeed-every-5-minutes": {
-        "task": "justinsight.tasks.nprLogger_task",
-        "schedule": 5.0,
-        "args": (),
-    },
+    # "check-NPRfeed-every-5-minutes": {
+    #     "task": "justinsight.tasks.nprLogger_task",
+    #     "schedule": 5.0,
+    #     "args": (),
+    # },
 
     # Unable to access full text
     # "check-NYTfeed-every-5-minutes": {

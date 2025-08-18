@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from celery import current_app
 from celery.exceptions import NotRegistered
+from bson import ObjectId
 
 client = MongoClient("mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin")
 
