@@ -1,8 +1,10 @@
+accelerate
 beautifulsoup4
 celery[redis]
 chromadb
 click
 feedparser
+huggingface_hub
 langchain-community
 playwright
 pymongo

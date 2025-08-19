@@ -22,10 +22,10 @@ RUN playwright install-deps
 # Set cache dir to the mounted volume
 ENV TRANSFORMERS_CACHE=/models
 
-# Pre-download the model
-RUN python -c "from transformers import AutoModelForCausalLM, AutoTokenizer; \
-    AutoTokenizer.from_pretrained('tiiuae/falcon-7b-instruct'); \
-    AutoModelForCausalLM.from_pretrained('tiiuae/falcon-7b-instruct')"
+# # Pre-download the model
+# RUN python -c "from transformers import AutoModelForCausalLM, AutoTokenizer; \
+#     AutoTokenizer.from_pretrained('tiiuae/falcon-7b-instruct'); \
+#     AutoModelForCausalLM.from_pretrained('tiiuae/falcon-7b-instruct')"
 
 # Set working directory
 WORKDIR /workspace

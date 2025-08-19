@@ -33,8 +33,9 @@ if query:
     # For debugging purposes
     if "Chunks: " in query:
         objId = query[8:]
-        chunks = chunk_text(collection.find_one({'_id' : ObjectId(objId)})['full_text'])
-        st.write(chunks)
+        if objId != "":
+            chunks = chunk_text(collection.find_one({'_id' : ObjectId(objId)})['full_text'])
+            st.write(chunks)
 
     else:
         results = retrieve_context(query, k=5)

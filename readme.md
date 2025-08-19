@@ -55,3 +55,9 @@ Then: use justinsightdb
 Then: db.articles.find().pretty()  
 Note - you may need to download mongosh for this to work and to exit the mongosh environment just run 'exit'. Remember to 'docker compose down' as the containers will be running in the background.  
 Note - to delete everything in your database run the docker in detached mode and then run ./scripts/clear_db.sh
+
+##Important note about running RAG
+You will need to run 
+docker compose run --rm streamlitapp \
+  python -c "from huggingface_hub import snapshot_download; snapshot_download('tiiuae/falcon-7b-instruct', cache_dir='/models')"
+once before running like normal to download the LLM model used in the RAG - it may take a while.

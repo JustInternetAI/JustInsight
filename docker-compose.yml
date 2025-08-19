@@ -9,7 +9,7 @@ services:
     volumes:
       - ./:/workspace:cached
       - ./shared:/workspace/shared:cached
-
+      - models:/models
     # ensure entrypoint.sh runs (clones & checks out the right branch)
     #entrypoint: ["/usr/local/bin/entrypoint.sh"]
     command: ["bash"]
@@ -30,6 +30,7 @@ services:
     volumes:
       - .:/workspace:cached
       - mongo_data:/data/db 
+      - models:/models
     depends_on:
       - redis
       - mongo
@@ -44,6 +45,7 @@ services:
     #   - MONGODB_URI=mongodb://myuser:mypassword@mongo:27017/justinsightdb?authSource=admin
     volumes:
       - .:/workspace:cached
+      - models:/models
     depends_on:
       - redis
     #entrypoint: ["/usr/local/bin/entrypoint.sh"]
@@ -61,7 +63,8 @@ services:
     volumes:
       - mongo_data:/data/db 
       - .:/workspace:cached
-
+      - models:/models
+      
   streamlitapp:
     build:
       context: .
@@ -76,6 +79,7 @@ services:
     volumes:
       # - mongo_data:/data/db 
       - .:/workspace:cached
+      - models:/models
     command: ["streamlit", "run", "src/justinsight/streamlitapp.py"]
 
   chromadb:
