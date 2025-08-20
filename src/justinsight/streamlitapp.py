@@ -39,10 +39,10 @@ if query:
 
     else:
         results = retrieve_context(query, k=5)
-        st.write("Top relevant chunks:")
-        for doc, meta in zip(results['documents'][0], results['metadatas'][0]):
-            st.markdown(f"**{meta['title']} ({meta['date']})**\n\n{doc}\n---")
+        # st.write("Top relevant chunks:")
+        # for doc, meta in zip(results['documents'][0], results['metadatas'][0]):
+        #     st.markdown(f"**{meta['title']} ({meta['date']})**\n\n{doc}\n---")
 
         answer = generate_answer(query, results)
-        st.write(answer)
+        st.write(answer[0]['generated_text'])
 

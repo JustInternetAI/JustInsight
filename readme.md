@@ -59,5 +59,5 @@ Note - to delete everything in your database run the docker in detached mode and
 ##Important note about running RAG
 You will need to run 
 docker compose run --rm streamlitapp \
-  python -c "from huggingface_hub import snapshot_download; snapshot_download('tiiuae/falcon-7b-instruct', cache_dir='/models')"
+  python -c "from huggingface_hub import snapshot_download; snapshot_download('google/flan-t5-large', cache_dir='/models')"
 once before running like normal to download the LLM model used in the RAG - it may take a while.
